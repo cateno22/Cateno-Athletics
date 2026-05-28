@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cateno Athletics – Trainingscoach</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--red:#c0392b;--red2:#e74c3c;--bg:#fdf6f6;--bg2:#fce8e8;--white:#fff;--text:#1e1e1e;--muted:#9e7a7a;--border:#f0d8d8;--card:#fff}
+    body{min-height:100vh;background:linear-gradient(150deg,var(--bg) 0%,var(--bg2) 45%,var(--bg) 100%);font-family:'Barlow',sans-serif;color:var(--text)}
+    ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:rgba(192,57,43,0.2);border-radius:2px}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:56px;background:rgba(253,246,246,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
+    .nav-logo{display:flex;align-items:center;gap:9px}
+    .nav-icon{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--red),var(--red2));display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 3px 10px rgba(192,57,43,0.3)}
+    .nav-brand{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--text)}
+    .nav-right{display:flex;align-items:center;gap:6px}
+    .tab-btn{background:none;border:none;cursor:pointer;padding:6px 12px;border-radius:20px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);transition:all .2s}
+    .tab-btn.active{background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;box-shadow:0 3px 12px rgba(192,57,43,0.3)}
+    .ig-btn{display:flex;align-items:center;gap:5px;background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;text-decoration:none;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:.5px;box-shadow:0 3px 10px rgba(192,57,43,0.3);transition:transform .15s,box-shadow .15s}
+    .ig-btn:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(192,57,43,0.4)}
+    .screen{display:none;max-width:700px;margin:0 auto;padding:22px 18px 50px;animation:fadeUp .3s ease}
+    .screen.active{display:block}
+    .section-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+    .hero{background:linear-gradient(135deg,#1a0808,#2a0f0f);border-radius:16px;padding:26px;margin-bottom:20px;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(192,57,43,0.18) 0%,transparent 70%)}
+    .hero-tag{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:4px;background:rgba(192,57,43,0.2);color:#ff6b6b;border:1px solid rgba(192,57,43,0.35);display:inline-block}
+    .hero-title{font-family:'Barlow Condensed',sans-serif;font-size:40px;font-weight:800;line-height:.92;color:#fff;letter-spacing:-1px;text-transform:uppercase;margin-top:11px}
+    .hero-title span{color:var(--red2)}
+    .hero-sub{color:#a08080;font-size:13px;margin-top:9px;line-height:1.5}
+    .hero-ctas{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap}
+    .hero-cta{padding:10px 18px;border-radius:10px;border:none;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;transition:all .2s}
+    .hero-cta.primary{background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;box-shadow:0 4px 16px rgba(192,57,43,0.4)}
+    .hero-cta.secondary{background:rgba(255,255,255,0.08);color:#ccc;border:1px solid rgba(255,255,255,0.15)}
+    .hero-cta:hover{transform:translateY(-1px)}
+    .stats{display:flex;gap:9px;margin-bottom:20px}
+    .stat{flex:1;background:var(--card);border-radius:12px;padding:13px 8px;text-align:center;border:1px solid var(--border)}
+    .stat-val{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;color:var(--red);line-height:1}
+    .stat-lbl{color:var(--muted);font-size:10px;margin-top:3px;line-height:1.4}
+    .home-card{background:var(--card);border-radius:13px;padding:15px;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:13px;transition:border-color .2s;margin-bottom:8px}
+    .home-card:hover{border-color:rgba(192,57,43,0.35)}
+    .home-card-icon{width:42px;height:42px;border-radius:11px;background:rgba(192,57,43,0.09);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+    .home-card-title{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700}
+    .home-card-sub{color:var(--muted);font-size:11px;margin-top:2px}
+    .day-tabs{display:flex;gap:7px;margin-bottom:16px}
+    .day-tab{flex:1;padding:9px 0;border-radius:10px;border:1.5px solid var(--border);background:var(--white);color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .2s}
+    .day-tab.active{background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;border-color:transparent;box-shadow:0 3px 12px rgba(192,57,43,0.3)}
+    .day-header{background:var(--card);border-radius:13px;padding:16px;border:1px solid var(--border);margin-bottom:11px;box-shadow:0 2px 10px rgba(0,0,0,0.04)}
+    .day-tag-pill{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:4px;background:rgba(192,57,43,0.1);color:var(--red);border:1px solid rgba(192,57,43,0.25);display:inline-block}
+    .day-title{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:800;color:var(--text);margin-top:6px;letter-spacing:-.5px}
+    .day-sub-txt{color:var(--muted);font-size:11px;margin-top:2px}
+    .plan-actions{display:flex;gap:9px;margin-bottom:16px}
+    .plan-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 0;border-radius:10px;border:none;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;transition:all .2s}
+    .plan-btn.save{background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;box-shadow:0 3px 12px rgba(192,57,43,0.3)}
+    .plan-btn.save:hover{box-shadow:0 5px 18px rgba(192,57,43,0.4);transform:translateY(-1px)}
+    .plan-btn.shot{background:var(--white);border:1.5px solid var(--border);color:var(--muted)}
+    .plan-btn.shot:hover{border-color:var(--red);color:var(--red)}
+    .ex-list{display:flex;flex-direction:column;gap:6px}
+    .ex-card{background:var(--card);border-radius:11px;border:1.5px solid var(--border);overflow:hidden;cursor:pointer;transition:border-color .2s}
+    .ex-card:hover,.ex-card.open{border-color:rgba(192,57,43,0.35)}
+    .ex-row{padding:12px 14px;display:flex;align-items:center;justify-content:space-between}
+    .ex-num{width:28px;height:28px;border-radius:6px;background:rgba(192,57,43,0.09);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;color:var(--red);flex-shrink:0;margin-right:10px}
+    .ex-name{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--text)}
+    .ex-sets{color:var(--muted);font-size:11px;margin-top:1px}
+    .ex-arrow{color:var(--muted);font-size:17px;transition:transform .2s,color .2s;flex-shrink:0}
+    .ex-card.open .ex-arrow{transform:rotate(90deg);color:var(--red)}
+    .ex-note{padding:0 14px 12px;border-top:1px solid var(--border);padding-top:10px;color:#7a6060;font-size:13px;line-height:1.6;display:none}
+    .ex-card.open .ex-note{display:block;animation:fadeUp .2s ease}
+    .saved-wrap{margin-top:24px}
+    .saved-item{background:var(--card);border-radius:11px;border:1px solid var(--border);padding:13px 15px;display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+    .saved-name{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--text)}
+    .saved-date{color:var(--muted);font-size:11px;margin-top:2px}
+    .saved-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;transition:color .2s}
+    .saved-del:hover{color:var(--red)}
+    .faq-search-wrap{position:relative;margin-bottom:16px}
+    .faq-search{width:100%;padding:11px 15px 11px 40px;border:1.5px solid var(--border);border-radius:11px;background:var(--white);font-size:13px;font-family:'Barlow',sans-serif;color:var(--text);outline:none;transition:border-color .2s}
+    .faq-search:focus{border-color:rgba(192,57,43,0.4)}
+    .search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;pointer-events:none}
+    .faq-cats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+    .cat-btn{background:var(--white);border:1.5px solid var(--border);color:var(--muted);border-radius:20px;padding:5px 12px;font-size:11px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.5px;transition:all .18s}
+    .cat-btn.active,.cat-btn:hover{background:var(--red);color:#fff;border-color:var(--red)}
+    .faq-list{display:flex;flex-direction:column;gap:7px}
+    .faq-item{background:var(--card);border-radius:12px;border:1.5px solid var(--border);overflow:hidden;transition:border-color .2s}
+    .faq-item:hover,.faq-item.open{border-color:rgba(192,57,43,0.35)}
+    .faq-q{padding:13px 15px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;gap:9px}
+    .faq-icon{width:32px;height:32px;border-radius:8px;background:rgba(192,57,43,0.08);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+    .faq-qtxt{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;color:var(--text);flex:1}
+    .faq-arr{color:var(--muted);font-size:17px;transition:transform .2s,color .2s;flex-shrink:0}
+    .faq-item.open .faq-arr{transform:rotate(90deg);color:var(--red)}
+    .faq-a{display:none;padding:0 15px 13px;padding-top:11px;border-top:1px solid var(--border);font-size:13px;line-height:1.7;color:#5a4040}
+    .faq-item.open .faq-a{display:block;animation:fadeUp .2s ease}
+    .faq-empty{text-align:center;color:var(--muted);padding:36px 0;font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:.5px}
+    .faq-hero{background:linear-gradient(135deg,#1a0808,#2a0f0f);border-radius:16px;padding:22px;margin-bottom:20px;position:relative;overflow:hidden}
+    .faq-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(192,57,43,0.15) 0%,transparent 70%)}
+    #modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);backdrop-filter:blur(5px);z-index:200;align-items:center;justify-content:center;padding:18px}
+    #modal.show{display:flex}
+    .modal-box{background:#0e0e0e;border-radius:18px;padding:24px;width:100%;max-width:370px;border:1px solid #2a2a2a}
+    .modal-close{float:right;background:none;border:none;color:#666;font-size:20px;cursor:pointer}
+    .shot-card{background:#0e0e0e;border-radius:12px;padding:20px}
+    .shot-header{text-align:center;margin-bottom:16px;padding-bottom:13px;border-bottom:1px solid #2a2a2a}
+    .shot-brand{font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:800;color:#f5f5f5;letter-spacing:1px;text-transform:uppercase}
+    .shot-brand span{color:#e74c3c}
+    .shot-daytag{display:inline-block;margin-top:5px;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:4px;background:rgba(214,48,49,0.2);color:#ff5252;border:1px solid rgba(214,48,49,0.3)}
+    .shot-daytitle{font-family:'Barlow Condensed',sans-serif;font-size:21px;font-weight:800;color:#f5f5f5;margin-top:5px}
+    .shot-ex{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid #1e1e1e}
+    .shot-ex:last-child{border-bottom:none}
+    .shot-n{width:23px;height:23px;border-radius:5px;background:rgba(214,48,49,0.1);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;color:#e74c3c;flex-shrink:0}
+    .shot-exname{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:#f5f5f5}
+    .shot-sets{color:#555;font-size:11px}
+    .shot-footer{text-align:center;margin-top:13px;padding-top:11px;border-top:1px solid #2a2a2a;font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:1.5px;color:#444;text-transform:uppercase}
+    .modal-actions{display:flex;gap:7px;margin-top:13px}
+    .modal-btn{flex:1;padding:10px;border-radius:9px;border:none;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;transition:all .2s}
+    .modal-btn.primary{background:linear-gradient(135deg,#c0392b,#e74c3c);color:#fff;box-shadow:0 3px 12px rgba(192,57,43,0.3)}
+    .modal-btn.secondary{background:#1e1e1e;color:#666;border:1px solid #2a2a2a}
+    .modal-hint{text-align:center;margin-top:7px;color:#444;font-size:11px;font-family:'Barlow',sans-serif}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:480px){.nav-brand{font-size:14px}.tab-btn{padding:5px 8px;font-size:10px}.ig-btn span{display:none}.hero-title{font-size:34px}}
+  </style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo">
+    <div class="nav-icon">🏋️</div>
+    <div class="nav-brand">Cateno Athletics</div>
+  </div>
+  <div class="nav-right">
+    <button class="tab-btn active" onclick="showScreen('home',this)">Home</button>
+    <button class="tab-btn" onclick="showScreen('plan',this)">Plan</button>
+    <button class="tab-btn" onclick="showScreen('faq',this)">Coach</button>
+    <a class="ig-btn" href="https://www.instagram.com/cateno_athletics" target="_blank" rel="noopener noreferrer">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      <span>@cateno_athletics</span>
+    </a>
+  </div>
+</nav>
+
+<div class="screen active" id="screen-home">
+  <div class="hero">
+    <span class="hero-tag">💪 Kraftsport · Technik · Motivation</span>
+    <div class="hero-title">CATENO<br><span>ATHLETICS</span></div>
+    <div class="hero-sub">Trainingspläne, Technik-Tipps und Motivation – alles kostenlos.</div>
+    <div class="hero-ctas">
+      <button class="hero-cta primary" onclick="showScreen('plan',document.querySelectorAll('.tab-btn')[1])">📋 Trainingsplan</button>
+      <button class="hero-cta secondary" onclick="showScreen('faq',document.querySelectorAll('.tab-btn')[2])">❓ Coach fragen</button>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-val">3</div><div class="stat-lbl">Einheiten<br>die Woche</div></div>
+    <div class="stat"><div class="stat-val">12</div><div class="stat-lbl">Wochen<br>Programm</div></div>
+    <div class="stat"><div class="stat-val">15+</div><div class="stat-lbl">Übungen<br>mit Tipps</div></div>
+  </div>
+  <div class="section-label">Was dich erwartet</div>
+  <div class="home-card" onclick="showScreen('plan',document.querySelectorAll('.tab-btn')[1])">
+    <div class="home-card-icon">📋</div>
+    <div><div class="home-card-title">3-Tage Trainingsplan</div><div class="home-card-sub">Push · Pull · Legs – speichern & screenshot</div></div>
+    <div style="margin-left:auto;color:var(--red);font-size:16px">→</div>
+  </div>
+  <div class="home-card" onclick="showScreen('faq',document.querySelectorAll('.tab-btn')[2])">
+    <div class="home-card-icon">💬</div>
+    <div><div class="home-card-title">Coach-FAQ</div><div class="home-card-sub">Technik, Training, Regen & Motivation</div></div>
+    <div style="margin-left:auto;color:var(--red);font-size:16px">→</div>
+  </div>
+</div>
+
+<div class="screen" id="screen-plan">
+  <div class="plan-actions">
+    <button class="plan-btn save" onclick="savePlan()">💾 Plan speichern</button>
+    <button class="plan-btn shot" onclick="openModal()">📸 Screenshot-Ansicht</button>
+  </div>
+  <div class="day-tabs">
+    <button class="day-tab active" onclick="switchDay(0,this)">TAG 1</button>
+    <button class="day-tab" onclick="switchDay(1,this)">TAG 2</button>
+    <button class="day-tab" onclick="switchDay(2,this)">TAG 3</button>
+  </div>
+  <div id="dayContent"></div>
+  <div class="saved-wrap" id="savedWrap" style="display:none">
+    <div class="section-label">Gespeicherte Pläne</div>
+    <div id="savedList"></div>
+  </div>
+</div>
+
+<div class="screen" id="screen-faq">
+  <div class="faq-hero">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:4px;background:rgba(192,57,43,0.2);color:#ff6b6b;border:1px solid rgba(192,57,43,0.35);display:inline-block">Coach FAQ</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;color:#fff;margin-top:10px;letter-spacing:-.5px">Deine Fragen.<br><span style="color:#e74c3c">Meine Antworten.</span></div>
+    <div style="color:#a08080;font-size:12px;margin-top:7px">Klick auf eine Frage um die Antwort zu sehen.</div>
+  </div>
+  <div class="faq-search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="faq-search" type="text" placeholder="Frage suchen…" oninput="filterFaq(this.value)"/>
+  </div>
+  <div class="faq-cats" id="catBtns"></div>
+  <div class="faq-list" id="faqList"></div>
+</div>
+
+<div id="modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="shotCard"></div>
+    <div class="modal-actions">
+      <button class="modal-btn secondary" onclick="closeModal()">Schließen</button>
+      <button class="modal-btn primary" onclick="printShot()">🖨️ Speichern</button>
+    </div>
+    <div class="modal-hint">Tipp: „Als PDF" oder Screenshot machen</div>
+  </div>
+</div>
+
+<script>
+const PLANS=[
+  {day:"TAG 1",label:"PUSH",sub:"Brust · Schulter · Trizeps",exercises:[
+    {name:"Bankdrücken",sets:"4 × 6–8",note:"Schulterblätter zusammenziehen und in die Bank drücken. Ellbogen ca. 75° vom Körper. Kontrolliert senken."},
+    {name:"Schrägbankdrücken",sets:"3 × 8–10",note:"30° Neigung. Ellbogen leicht nach innen führen für mehr Brustisolierung."},
+    {name:"Schulterdrücken",sets:"4 × 8–10",note:"Kern anspannen, kein Hohlkreuz. Stange knapp vor dem Kopf führen."},
+    {name:"Seitheben",sets:"3 × 12–15",note:"Leichtes Gewicht. Arme leicht gebeugt. Bewegung kommt aus der Schulter."},
+    {name:"Trizeps Pushdown",sets:"3 × 12",note:"Ellbogen fixiert am Körper. Volle Streckung unten, kontrolliert zurück."}
+  ]},
+  {day:"TAG 2",label:"PULL",sub:"Rücken · Bizeps",exercises:[
+    {name:"Klimmzüge",sets:"4 × max",note:"Schulterblätter ZUERST runterziehen, dann Arme beugen. Brust zur Stange führen."},
+    {name:"Langhantelrudern",sets:"4 × 6–8",note:"Rücken gerade, leicht vorgebeugt. Stange zur Hüfte ziehen, nicht zur Brust."},
+    {name:"Kabelrudern",sets:"3 × 10–12",note:"Volle Streckung am Anfang. Ellbogen nah am Körper, Schulterblätter zusammenziehen."},
+    {name:"Kurzhantel Curls",sets:"3 × 10–12",note:"Handgelenk am oberen Punkt supinieren. Langsam und kontrolliert senken."},
+    {name:"Hammercurls",sets:"3 × 12",note:"Neutrale Griffhaltung (Daumen oben). Konstante Spannung im Bizeps halten."}
+  ]},
+  {day:"TAG 3",label:"LEGS",sub:"Beine · Gesäß",exercises:[
+    {name:"Kniebeuge",sets:"4 × 6–8",note:"Füße hüftbreit, Zehen leicht auswärts. Brust hoch, Knie über Zehen. Volle Tiefe."},
+    {name:"Beinpresse",sets:"3 × 10–12",note:"Füße hüftbreit auf der Platte. Knie am Ende nicht überstrecken."},
+    {name:"Rumän. Kreuzheben",sets:"4 × 8–10",note:"Hüfte nach hinten schieben, Rücken gerade. Hanteln nah am Bein entlangführen."},
+    {name:"Ausfallschritte",sets:"3 × 12",note:"Großer Schritt nach vorne. Hinteres Knie fast zum Boden. Oberkörper gerade."},
+    {name:"Wadenheben",sets:"4 × 15–20",note:"Volle Bewegungsamplitude. Oben 1 Sekunde halten, langsam runter."}
+  ]}
+];
+const FAQS=[
+  {cat:"Technik",icon:"🏋️",q:"Wie führe ich eine Kniebeuge richtig aus?",a:"Füße hüftbreit, Zehen leicht nach außen. Kern anspannen, Brust hoch. Hüfte und Knie gleichzeitig beugen – Knie in Richtung Zehen. Tief gehen bis Oberschenkel parallel. Durch die Fersen drücken beim Hochkommen, Knie nicht nach innen."},
+  {cat:"Technik",icon:"🏋️",q:"Was muss ich beim Bankdrücken beachten?",a:"Schulterblätter zusammenziehen und in die Bank drücken – schützt die Schultern. Füße fest auf dem Boden. Ellbogen 70–75° vom Körper. Brust berühren, kurz pausieren, dann explosiv hochdrücken."},
+  {cat:"Technik",icon:"🏋️",q:"Wie mache ich Klimmzüge richtig?",a:"Schulterbreiter Griff. ZUERST Schulterblätter aktiv runterziehen, DANN Arme beugen. Brust zur Stange führen. Kontrolliert runterlassen bis zur vollen Streckung. Kein Schwung – sauber ist besser als viele."},
+  {cat:"Technik",icon:"🏋️",q:"Wie funktioniert rumänisches Kreuzheben?",a:"Steh hüftbreit, Hanteln vor den Oberschenkeln. Hüfte nach HINTEN schieben – nicht runterducken! Rücken bleibt gerade. Hanteln nah am Bein entlang bis zur Dehnung im hinteren Oberschenkel. Dann Hüfte nach vorne und aufrichten."},
+  {cat:"Technik",icon:"🏋️",q:"Wie trainiere ich den Trizeps richtig?",a:"Beim Pushdown: Ellbogen fixiert, nur die Unterarme bewegen. Volle Streckung am Ende ist wichtig. Beim Dips: Oberkörper leicht nach vorne für mehr Trizepsfokus. Langsam senken, explosiv drücken."},
+  {cat:"Training",icon:"📋",q:"Wie viel Pause zwischen den Sätzen?",a:"Kraft (3–6 Wdh): 3–5 Minuten.\nMuskelaufbau (8–12 Wdh): 60–90 Sekunden.\nAusdauer (15+ Wdh): 30–45 Sekunden.\nFür diesen Plan empfehle ich 90 Sekunden – guter Kompromiss."},
+  {cat:"Training",icon:"📋",q:"Was ist Progressive Overload?",a:"Das wichtigste Prinzip im Kraftsport: Jede Woche ein bisschen mehr.\n• Mehr Gewicht (+2,5 kg)\n• Mehr Wiederholungen\n• Mehr Sätze\n• Weniger Pause\nNur wer fordert, wächst. Ohne Progression kein Fortschritt."},
+  {cat:"Training",icon:"📋",q:"Wie oft pro Woche sollte ich trainieren?",a:"Als Anfänger/Mittelstufe reichen 3x pro Woche völlig aus. Jede Muskelgruppe 1x, mit genug Regeneration dazwischen.\nFortgeschrittene können auf 4–5x erhöhen. Mindestens 1 Ruhetag zwischen den Einheiten ist Pflicht."},
+  {cat:"Training",icon:"📋",q:"Welches Gewicht soll ich nehmen?",a:"Wähle ein Gewicht bei dem die letzten 2 Wiederholungen anstrengend sind – Technik aber noch sauber. Bei 8 Wdh sollte die 8. schwer sein, eine 9. kaum möglich.\nAnfänger: Lieber zu leicht starten und Technik lernen."},
+  {cat:"Training",icon:"📋",q:"Wie lange sollte eine Einheit dauern?",a:"45–75 Minuten ist optimal. Länger bringt kaum mehr. Nach ~60 Minuten ist der Körper bei Hochintensität erschöpft.\n5–10 Min Aufwärmen + 5 Übungen × 4 Sätze + 90s Pause = ca. 60 Minuten. Perfekt."},
+  {cat:"Regeneration",icon:"💤",q:"Wie wichtig ist Schlaf für Muskelaufbau?",a:"Schlaf ist KRITISCH. Wachstumshormone werden nachts ausgeschüttet, Muskelfasern repariert. 7–9 Stunden ideal. Unter 6 Stunden reduziert Muskelaufbau und Kraft nachweislich. Schlaf ist genauso wichtig wie das Training."},
+  {cat:"Regeneration",icon:"💤",q:"Was tun bei Muskelkater?",a:"Muskelkater = Mikrorisse in Muskelfasern nach ungewohnter Belastung. Normal, kein Zeichen für gutes Training!\nHilft: Leichte Bewegung, Spazieren, dehnen. Genug schlafen und essen. Nicht durch extremen Kater trainieren."},
+  {cat:"Regeneration",icon:"💤",q:"Wie lange braucht ein Muskel zur Regeneration?",a:"48–72 Stunden nach intensivem Training. Deshalb ist Push/Pull/Legs so clever: Jede Gruppe hat 6 Tage Pause.\nFortgeschrittene regenerieren schneller, Anfänger brauchen eher mehr Zeit."},
+  {cat:"Motivation",icon:"🔥",q:"Was tun wenn ich keine Motivation habe?",a:"Motivation kommt NACH der Handlung – nicht davor. Warte nicht drauf. Einfach anfangen.\nHilft: Feste Uhrzeit, Trainingspartner, gute Musik – und daran denken warum du angefangen hast."},
+  {cat:"Motivation",icon:"🔥",q:"Wie bleibe ich langfristig dran?",a:"1. Realistische Ziele – kein Stress bei Rückschlägen.\n2. Fortschritte tracken – sieh wie weit du gekommen bist.\n3. Prozess lieben lernen.\n4. Community – ähnliche Ziele motivieren.\n5. Rückschläge einplanen – wichtig ist aufstehen."},
+  {cat:"Motivation",icon:"🔥",q:"Wie schnell sehe ich Ergebnisse?",a:"Kraft: 2–4 Wochen (Nervensystem lernt).\nSichtbare Muskeln: 8–12 Wochen.\nMarkante Veränderung: 6–12 Monate.\nWer nach 4 Wochen aufgibt, verpasst 90% der Ergebnisse. Dran bleiben!"}
+];
+const CATS=["Alle",...new Set(FAQS.map(f=>f.cat))];
+let activecat="Alle",searchTerm="",currentDay=0;
+
+function renderCats(){
+  document.getElementById('catBtns').innerHTML=CATS.map(c=>`<button class="cat-btn ${c===activecat?'active':''}" onclick="setCat('${c}')">${c}</button>`).join('');
+}
+function setCat(c){activecat=c;renderCats();renderFaq();}
+function filterFaq(v){searchTerm=v.toLowerCase();renderFaq();}
+function renderFaq(){
+  let items=FAQS.filter(f=>{
+    const mc=activecat==="Alle"||f.cat===activecat;
+    const ms=!searchTerm||f.q.toLowerCase().includes(searchTerm)||f.a.toLowerCase().includes(searchTerm);
+    return mc&&ms;
+  });
+  const list=document.getElementById('faqList');
+  if(!items.length){list.innerHTML='<div class="faq-empty">🔍 Keine Fragen gefunden</div>';return;}
+  list.innerHTML=items.map(f=>`
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><div class="faq-icon">${f.icon}</div><div class="faq-qtxt">${f.q}</div><span class="faq-arr">›</span></div>
+      <div class="faq-a">${f.a.replace(/\n/g,'<br>')}</div>
+    </div>`).join('');
+}
+function renderDay(idx){
+  const p=PLANS[idx];
+  document.getElementById('dayContent').innerHTML=`
+    <div class="day-header"><span class="day-tag-pill">${p.label}</span><div class="day-title">${p.sub}</div><div class="day-sub-txt">${p.exercises.length} Übungen</div></div>
+    <div class="ex-list">${p.exercises.map((ex,i)=>`
+      <div class="ex-card" onclick="this.classList.toggle('open')">
+        <div class="ex-row"><div style="display:flex;align-items:center;flex:1"><div class="ex-num">${i+1}</div><div><div class="ex-name">${ex.name}</div><div class="ex-sets">${ex.sets}</div></div></div><span class="ex-arrow">›</span></div>
+        <div class="ex-note">💡 ${ex.note}</div>
+      </div>`).join('')}</div>`;
+}
+function switchDay(idx,btn){
+  currentDay=idx;
+  document.querySelectorAll('.day-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');renderDay(idx);
+}
+function savePlan(){
+  const p=PLANS[currentDay];
+  const saved=JSON.parse(localStorage.getItem('ca_plans')||'[]');
+  saved.unshift({id:Date.now(),day:p.day,label:p.label,sub:p.sub,date:new Date().toLocaleDateString('de-DE')});
+  localStorage.setItem('ca_plans',JSON.stringify(saved));renderSaved();
+  const btn=document.querySelector('.plan-btn.save');
+  btn.textContent='✅ Gespeichert!';setTimeout(()=>btn.innerHTML='💾 Plan speichern',1800);
+}
+function renderSaved(){
+  const saved=JSON.parse(localStorage.getItem('ca_plans')||'[]');
+  const wrap=document.getElementById('savedWrap');
+  if(!saved.length){wrap.style.display='none';return;}
+  wrap.style.display='block';
+  document.getElementById('savedList').innerHTML=saved.map(s=>`
+    <div class="saved-item"><div><div class="saved-name">${s.day} – ${s.label} · ${s.sub}</div><div class="saved-date">Gespeichert am ${s.date}</div></div>
+    <button class="saved-del" onclick="deleteSaved(${s.id})">🗑</button></div>`).join('');
+}
+function deleteSaved(id){
+  localStorage.setItem('ca_plans',JSON.stringify(JSON.parse(localStorage.getItem('ca_plans')||'[]').filter(s=>s.id!==id)));
+  renderSaved();
+}
+function openModal(){
+  const p=PLANS[currentDay];
+  document.getElementById('shotCard').innerHTML=`<div class="shot-card"><div class="shot-header"><div class="shot-brand">CATENO <span>ATHLETICS</span></div><div><span class="shot-daytag">${p.label}</span></div><div class="shot-daytitle">${p.sub}</div></div>${p.exercises.map((ex,i)=>`<div class="shot-ex"><div class="shot-n">${i+1}</div><div><div class="shot-exname">${ex.name}</div><div class="shot-sets">${ex.sets}</div></div></div>`).join('')}<div class="shot-footer">@cateno_athletics</div></div>`;
+  document.getElementById('modal').classList.add('show');
+}
+function closeModal(){document.getElementById('modal').classList.remove('show');}
+function printShot(){
+  const content=document.getElementById('shotCard').innerHTML;
+  const w=window.open('','_blank');
+  w.document.write(`<html><head><title>Cateno Athletics</title><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400&display=swap" rel="stylesheet"/><style>body{margin:0;background:#0e0e0e;display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'Barlow',sans-serif}.shot-card{background:#121212;padding:28px;width:320px;border-radius:14px}.shot-header{text-align:center;margin-bottom:16px;padding-bottom:13px;border-bottom:1px solid #2a2a2a}.shot-brand{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:#f5f5f5;letter-spacing:1px;text-transform:uppercase}.shot-brand span{color:#e74c3c}.shot-daytag{display:inline-block;margin-top:5px;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:4px;background:rgba(214,48,49,0.2);color:#ff5252;border:1px solid rgba(214,48,49,0.3)}.shot-daytitle{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:#f5f5f5;margin-top:4px}.shot-ex{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #1e1e1e}.shot-ex:last-child{border-bottom:none}.shot-n{width:22px;height:22px;border-radius:5px;background:rgba(214,48,49,0.1);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:800;color:#e74c3c;flex-shrink:0}.shot-exname{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:#f5f5f5}.shot-sets{color:#555;font-size:10px}.shot-footer{text-align:center;margin-top:12px;padding-top:10px;border-top:1px solid #2a2a2a;font-family:'Barlow Condensed',sans-serif;font-size:9px;letter-spacing:1.5px;color:#444;text-transform:uppercase}</style></head><body>${content}<script>window.onload=()=>window.print()<\/script></body></html>`);
+  w.document.close();
+}
+function showScreen(id,btn){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  if(btn)btn.classList.add('active');
+}
+renderDay(0);renderSaved();renderCats();renderFaq();
+</script>
+</body>
+</html>
